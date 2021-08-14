@@ -24590,7 +24590,7 @@ var _hoisted_4 = {
   "class": ""
 };
 var _hoisted_5 = {
-  "class": "p-10 md:p-12 overflow-hidden shadow-xl sm:rounded-lg ",
+  "class": "px-6 py-10 sm:px-8 md:p-12 overflow-hidden shadow-xl sm:rounded-lg ",
   style: {
     "background-color": "#192231"
   }
