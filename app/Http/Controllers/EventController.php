@@ -6,6 +6,7 @@ use App\Events\ActivityEvent;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Carbon\Carbon;
+use Carbon\CarbonTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
@@ -74,18 +75,16 @@ class EventController extends Controller
             'status'=>'required'
         ]);
 
-        $now=Carbon::now('Africa/Blantyre')->getTimestamp();
-
         $last_entry=Event::orderBy("start_time","desc")->first();
         if (is_object($last_entry)) {
             $last_entry->update([
-                'end_time'  =>  $now
+                'end_time'  =>  time()
             ]);
         }
 
         $event=new Event([
             'status'         =>  $request->status,
-            'start_time'    =>  $now
+            'start_time'     =>  time()
         ]);
 
         if ($request->status==2){
@@ -101,7 +100,7 @@ class EventController extends Controller
 
         ActivityEvent::dispatch(new EventResource($event));
 
-        return response()->json([$event],200);
+        return response()->json([],200);
 
     }
 }
