@@ -9,7 +9,7 @@
         <div class="py-8 md:py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="">
-                        <div class="p-10 md:p-12 overflow-hidden shadow-xl sm:rounded-lg " style="background-color: #192231">
+                        <div class="px-6 py-10 sm:px-8 md:p-12 overflow-hidden shadow-xl sm:rounded-lg " style="background-color: #192231">
                             <!--<div id="chart" class="">
                                 <apexchart type="rangeBar" height="350" :options="chartOptions" :series="series"></apexchart>
                             </div>-->
