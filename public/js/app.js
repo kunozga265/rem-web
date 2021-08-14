@@ -20510,11 +20510,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    console.log(this.statusInfo);
     this.status = this.statusInfo;
     this.events = this.eventsData.data;
     Echo.channel('events').listen('ActivityEvent', function (data) {
-      console.log(data);
       _this.status = data.event.status;
       var tempArray = [];
       tempArray.push(data.event);

@@ -81,12 +81,10 @@
             }
         }),
         created() {
-            console.log(this.statusInfo)
             this.status=this.statusInfo
             this.events=this.eventsData.data
 
             Echo.channel('events').listen('ActivityEvent',(data)=>{
-                console.log(data)
                 this.status=data.event.status
 
                 let tempArray=[]
