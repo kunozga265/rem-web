@@ -16,47 +16,10 @@ class EventController extends Controller
     public function index()
     {
         $events=Event::orderBy('start_time','desc')->limit(7)->get();
-        $normal=[];
-        $off=[];
-        $fault=[];
-        $now=Carbon::now()->getTimestamp();
-
-//        foreach ($events as $event){
-//            if($event->status==0){
-//                array_push($off,[
-//                    'x' =>  'OFF',
-//                    'y' =>  [
-//                        ($event->start_time)*1000,
-//                        ($event->end_time?$event->end_time:$now)*1000
-//                    ]
-//                ]);
-//            }else if ($event->status==1){
-//                array_push($normal,[
-//                    'x' =>  'NORMAL',
-//                    'y' =>  [
-//                        ($event->start_time)*1000,
-//                        ($event->end_time?$event->end_time:$now)*1000
-//                    ]
-//                ]);
-//            }else{
-//                array_push($fault,[
-//                    'x' =>  'FAULT',
-//                    'y' =>  [
-//                        ($event->start_time)*1000,
-//                        ($event->end_time?$event->end_time:$now)*1000
-//                    ]
-//                ]);
-//            }
-//        }
-
-
 
         return Inertia::render('Dashboard',[
-            'latest_event'     =>  $events->first(),
+            'statusInfo'           =>  $events->isNotEmpty()?$events->first()->status:null,
             'eventsData'           =>  EventResource::collection($events),
-            'normal_series'    =>  $normal,
-            'off_series'       =>  $off,
-            'fault_series'     =>  $fault,
         ]);
     }
     public function events()
@@ -67,7 +30,7 @@ class EventController extends Controller
         $fault=[];
         $now=Carbon::now()->getTimestamp();
 
-        foreach ($events as $event){
+        /*foreach ($events as $event){
             if($event->status==0){
                 array_push($off,[
                     'x' =>  'OFF',
@@ -93,16 +56,15 @@ class EventController extends Controller
                     ]
                 ]);
             }
-        }
+        }*/
 
 
 
         return Inertia::render('Events',[
-            'latest_event'     =>  $events->first(),
-            'eventsData'           =>  EventResource::collection($events),
-            'normal_series'    =>  $normal,
+            /*'normal_series'    =>  $normal,
             'off_series'       =>  $off,
-            'fault_series'     =>  $fault,
+            'fault_series'     =>  $fault,*/
+            'eventsData'           =>  EventResource::collection($events),
         ]);
     }
 
