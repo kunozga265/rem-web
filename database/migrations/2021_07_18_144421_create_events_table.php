@@ -16,7 +16,7 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->integer("status");
-            $table->string("error_code")->nullable();
+            $table->string("fault_code")->nullable();
             $table->bigInteger("start_time");
             $table->bigInteger("end_time")->nullable();
             $table->timestamps();
