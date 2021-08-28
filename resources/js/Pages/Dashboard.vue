@@ -46,8 +46,8 @@
                                         <p v-else-if="event.status==1" class="text-xl text-green-500 font-bold">Normal</p>
                                         <div v-else>
                                             <span class="text-xl text-yellow-500 font-bold">Fault</span>
-                                            <span class="ml-1 text-xs text-yellow-500 font-black ">- {{event.error.code}}</span>
-                                            <p class="text-sm text-white text-opacity-70">{{event.error.name}}</p>
+                                            <span class="ml-1 text-xs text-yellow-500 font-black ">- {{event.fault.code}}</span>
+                                            <p class="text-sm text-white text-opacity-70">{{event.fault.name}}</p>
                                         </div>
                                         <div class="text-xs text-white text-opacity-50">
                                             <p>{{event.start_time}} - {{event.end_time}}</p>

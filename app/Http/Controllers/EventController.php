@@ -5,11 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\ActivityEvent;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
-use Carbon\Carbon;
-use Carbon\CarbonTimeZone;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Broadcast;
 use Inertia\Inertia;
 
 class EventController extends Controller
@@ -26,12 +22,13 @@ class EventController extends Controller
     public function events()
     {
         $events=Event::orderBy('start_time','desc')->get();
-        $normal=[];
+
+        /*$normal=[];
         $off=[];
         $fault=[];
         $now=Carbon::now()->getTimestamp();
 
-        /*foreach ($events as $event){
+        foreach ($events as $event){
             if($event->status==0){
                 array_push($off,[
                     'x' =>  'OFF',
@@ -88,15 +85,10 @@ class EventController extends Controller
         ]);
 
         if ($request->status==2){
-            $event->error_code=$request->error_code;
+            $event->fault_code=$request->fault_code;
         }
 
         $event->save();
-
-//        Broadcast::channel('events', function ($user){
-////            return Auth::check();
-//            return true;
-//        });
 
         ActivityEvent::dispatch(new EventResource($event));
 

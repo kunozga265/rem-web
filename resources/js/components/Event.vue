@@ -8,8 +8,8 @@
         <p v-else-if="event.status==1" class="text-xl text-green-500 font-bold">Normal</p>
         <div v-else>
             <span class="text-xl text-yellow-500 font-bold">Fault</span>
-            <span class="ml-1 text-xs text-yellow-500 font-black ">- {{event.error.code}}</span>
-            <p class="text-sm text-white text-opacity-70">{{event.error.name}}</p>
+            <span class="ml-1 text-xs text-yellow-500 font-black ">- {{event.fault.code}}</span>
+            <p class="text-sm text-white text-opacity-70">{{event.fault.name}}</p>
         </div>
         <div class="text-xs text-white text-opacity-50">
             <p>{{event.start_time}} - {{event.end_time}}</p>
@@ -19,14 +19,14 @@
             <button class="ml-2 px-4 py-2 rounded text-xs text-white text-opacity-90 font-bold bg-indigo-500 hover:bg-indigo-400 transition" @click="solutionsDialog=true">Solutions</button>
         </div>
 
-        <modal :show="causesDialog" @close="closeModal" v-if="event.error != null">
+        <modal :show="causesDialog" @close="closeModal" v-if="event.fault != null">
             <template #title>
                 Possible Causes
             </template>
 
             <template #content>
                 <ul class="list-disc px-6">
-                    <div v-html="event.error.causes"></div>
+                    <div v-html="event.fault.causes"></div>
                 </ul>
 
             </template>
@@ -36,14 +36,14 @@
             </template>
         </modal>
 
-        <modal :show="solutionsDialog" @close="closeModal" v-if="event.error != null">
+        <modal :show="solutionsDialog" @close="closeModal" v-if="event.fault != null">
             <template #title>
                 Solutions
             </template>
 
             <template #content>
                 <ul class="list-disc px-6">
-                    <div v-html="event.error.solution"></div>
+                    <div v-html="event.fault.solution"></div>
                 </ul>
 
             </template>

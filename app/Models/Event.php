@@ -9,14 +9,14 @@ class Event extends Model
 {
     use HasFactory;
 
-    public function error()
+    public function fault()
     {
-        return $this->hasOne("App\Models\Error","code","error_code");
+        return $this->hasOne("App\Models\Fault","code","fault_code");
     }
 
     protected $fillable=[
         'status',
-        'error_code',
+        'fault_code',
         'start_time',
         'end_time',
     ];

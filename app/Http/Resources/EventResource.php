@@ -20,7 +20,7 @@ class EventResource extends JsonResource
             'status'            =>  $this->status,
             'start_time'        =>  $this->formatDate($this->start_time),
             'end_time'          =>  $this->end_time?$this->formatDate($this->end_time):"Present",
-            "error"             =>  $this->error
+            "fault"             =>  $this->fault
         ];
     }
 
