@@ -92,7 +92,7 @@ class EventController extends Controller
             $event->fault_code=$request->fault_code;
         }
 
-//        $event->save();
+        $event->save();
 
         ActivityEvent::dispatch(new EventResource($event));
 
