@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Events\ActivityEvent;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
 
 class EventController extends Controller
 {
@@ -88,11 +92,67 @@ class EventController extends Controller
             $event->fault_code=$request->fault_code;
         }
 
-        $event->save();
+//        $event->save();
 
         ActivityEvent::dispatch(new EventResource($event));
 
+        $this->sendEmail($event);
+
         return response()->json([],200);
 
+    }
+
+    private function sendEmail(Event $event){
+
+        switch ($event->status){
+            case 0:
+                $status="OFF";
+                break;
+            case 1:
+                $status="NORMAL";
+                break;
+            default:
+                $status="FAULT - $event->fault_code";
+        }
+
+        $data=[
+            'email'         =>  'dummy@email.com',
+            'subject'       =>  'The Polytechnic Lift - Status Update',
+            'bodyMessage'   =>  "STATUS: <strong>$status</strong>",
+            'date'          =>  $this->formatDate($event->start_time)
+        ];
+
+
+        // Create the Transport
+        $transport = (new Swift_SmtpTransport(env("MAIL_HOST"), env("MAIL_PORT"),env("MAIL_ENCRYPTION")))
+            ->setUsername(env("MAIL_USERNAME"))
+            ->setPassword(env("MAIL_PASSWORD"))
+        ;
+
+        // Create the Mailer using your created Transport
+        $mailer = new Swift_Mailer($transport);
+
+        // Create a message
+        $message = (new Swift_Message($data['subject']))
+            ->setFrom($data['email'])
+            ->setTo(['kunozmlowoka@gmail.com'])
+            ->setBody("<p>$data[bodyMessage]</p><p>As of $data[date]</p>",'text/html')
+        ;
+
+        // Send the message
+        try{
+            $result = $mailer->send($message);
+            //if successful
+            if($result==1)
+                return response()->json(['response' => true]);
+            else
+                return response()->json(['response' => false]);
+        }catch (\Swift_TransportException $exception){
+            return response()->json(['response' => false,'status'=>$exception]);
+        }
+    }
+
+    private function formatDate($timestamp){
+        return Carbon::createFromTimestamp($timestamp,'Africa/Blantyre')->format("M d, Y H:i");
     }
 }
